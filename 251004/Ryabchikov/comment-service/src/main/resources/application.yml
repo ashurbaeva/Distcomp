@@ -17,6 +17,20 @@ spring:
     password: cassandra
   liquibase:
     change-log: classpath:/db/changelog/db.changelog-master.yaml
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "by.ryabchikov.*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+
 #    driver-class-name: com.ing.data.cassandra.jdbc.CassandraDriver
 #  datasource:
 #    driver-class-name: com.ing.data.cassandra.jdbc.CassandraDriver

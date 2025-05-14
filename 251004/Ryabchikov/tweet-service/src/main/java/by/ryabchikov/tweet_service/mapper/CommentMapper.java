@@ -1,17 +1,14 @@
-//package by.ryabchikov.tweet_service.mapper;
-//
-//import by.ryabchikov.tweet_service.dto.comment.CommentRequestTo;
-//import by.ryabchikov.tweet_service.dto.comment.CommentResponseTo;
-//import by.ryabchikov.tweet_service.entity.Comment;
-//import org.mapstruct.Mapper;
-//import org.mapstruct.Mapping;
-//
-//@Mapper(componentModel = "spring")
-//public interface CommentMapper {
-//
-//    @Mapping(target = "tweet.id", source = "tweetId")
-//    Comment toComment(CommentRequestTo commentRequestTo);
-//
-//    @Mapping(target = "tweetId", source = "tweet.id")
-//    CommentResponseTo toCommentResponseTo(Comment comment);
-//}
+package by.ryabchikov.tweet_service.mapper;
+
+import by.ryabchikov.data.CommentRequestEvent;
+import by.ryabchikov.data.CommentResponseEvent;
+import by.ryabchikov.tweet_service.dto.comment.CommentRequestTo;
+import by.ryabchikov.tweet_service.dto.comment.CommentResponseTo;
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface CommentMapper {
+    CommentRequestEvent toCommentRequestEvent(CommentRequestTo commentRequestTo);
+
+    CommentResponseTo toCommentResponseTo(CommentResponseEvent commentResponseEvent);
+}

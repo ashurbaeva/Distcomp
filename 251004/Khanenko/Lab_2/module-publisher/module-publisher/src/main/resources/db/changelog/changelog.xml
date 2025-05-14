@@ -1,0 +1,105 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!-- Создание таблицы tbl_user -->
+    <changeSet id="1" author="yourname">
+        <createTable tableName="tbl_user" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="varchar(255)">
+            </column>
+            <column name="password" type="varchar(255)">
+            </column>
+            <column name="firstname" type="varchar(255)"/>
+            <column name="lastname" type="varchar(255)"/>
+        </createTable>
+        <addUniqueConstraint tableName="tbl_user"
+                             columnNames="login"
+                             constraintName="unique_login"/>
+    </changeSet>
+
+    <!-- Создание таблицы tbl_article -->
+    <changeSet id="2" author="yourname">
+        <createTable tableName="tbl_article" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="fk_user" references="tbl_user(id)"/>
+            </column>
+            <column name="title" type="varchar(255)">
+            </column>
+            <column name="content" type="text"/>
+            <column name="created" type="timestamp">
+            </column>
+            <column name="modified" type="timestamp">
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="tbl_article"
+                             columnNames="title"
+                             constraintName="unique_title"/>
+    </changeSet>
+
+    <!-- Создание таблицы tbl_label -->
+    <changeSet id="3" author="yourname">
+        <createTable tableName="tbl_label" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Создание таблицы tbl_message -->
+    <changeSet id="4" author="yourname">
+        <createTable tableName="tbl_message" >
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="article_id" type="bigint">
+                <constraints foreignKeyName="fk_article" references="tbl_article(id)"/>
+            </column>
+            <column name="content" type="text"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Создание связующей таблицы tbl_article_label -->
+    <changeSet id="5" author="yourname">
+        <createTable tableName="tbl_article_label" >
+            <column name="article_id" type="bigint">
+                <constraints foreignKeyName="fk_article" references="tbl_article(id)"/>
+            </column>
+            <column name="label_id" type="bigint">
+                <constraints foreignKeyName="fk_label" references="tbl_label(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create-trigger-delete-unused-labels" author="yourname">
+        <createProcedure>
+            CREATE OR REPLACE FUNCTION delete_unused_labels()
+        RETURNS TRIGGER AS $$
+            BEGIN
+            DELETE FROM tbl_label t
+            WHERE NOT EXISTS (
+                SELECT 1
+                FROM tbl_article_label al
+                WHERE al.label_id = t.id --
+            );
+            RETURN NULL;
+            END;
+        $$ LANGUAGE plpgsql;
+        </createProcedure>
+
+        <sql>
+            CREATE TRIGGER trigger_delete_unused_labels
+                AFTER DELETE ON tbl_article_label
+                FOR EACH STATEMENT
+                EXECUTE FUNCTION delete_unused_labels();
+        </sql>
+    </changeSet>
+</databaseChangeLog>

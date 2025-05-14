@@ -29,4 +29,7 @@ public class Comment {
 
     @Column("content")
     private String content;
+
+//    @Column("state")
+//    private CommentState state;
 }

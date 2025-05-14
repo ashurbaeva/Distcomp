@@ -46,7 +46,6 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentResponseTo> create(@Valid @RequestBody CommentRequestTo commentRequestTo) {
         CommentResponseTo commentResponseTo = commentService.create(commentRequestTo);
-        System.out.println("Comment: " + commentResponseTo);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(commentResponseTo);

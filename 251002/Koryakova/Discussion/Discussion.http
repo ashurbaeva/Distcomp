@@ -1,0 +1,5 @@
+@Discussion_HostAddress = http://localhost:24130
+
+### Get all reactions
+GET {{Discussion_HostAddress}}/api/v1.0/reactions/
+Accept: application/json

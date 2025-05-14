@@ -1,0 +1,11 @@
+@LabsRV_Discussion_HostAddress = http://localhost:24130
+
+POST {{LabsRV_Discussion_HostAddress}}/api/v1.0/comments/
+Content-Type: application/json
+Body:
+{
+    "articleId": 64,
+    "content": "content6306"
+}
+
+###

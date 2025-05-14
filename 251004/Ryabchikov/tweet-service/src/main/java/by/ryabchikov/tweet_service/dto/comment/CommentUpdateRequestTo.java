@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
+import java.io.Serializable;
+
 @Builder
 public record CommentUpdateRequestTo(
         @NotNull(message = "ID should not be null.")
@@ -19,5 +21,5 @@ public record CommentUpdateRequestTo(
         @NotBlank(message = "Content should not be blank.")
         @Size(min = 2, max = 2048, message = "Content size should be between 2 and 2048 chars.")
         String content
-) {
+) implements Serializable {
 }

@@ -33,9 +33,11 @@ public class CommentServiceImpl implements CommentService {
         comment.setCountry("Default");
         comment.setId((long) (Math.random() * 10000000));
 
-        return commentMapper.toCommentResponseTo(
+        CommentResponseTo commentResponseTo = commentMapper.toCommentResponseTo(
                 commentRepository.save(comment)
         );
+
+        return commentResponseTo;
     }
 
     @Override

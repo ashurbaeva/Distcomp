@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'maven-publish'
+}
+
+group = 'by.symonik'
+version = '1.0.0'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+dependencies {
+}
+
+jar {
+	manifest {
+		archiveFileName = "data-1.0.0.jar"
+		attributes('Implementation-Title': archiveFileName,
+				'Implementation-Version': archiveVersion)
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			groupId = 'by.symonik'
+			artifactId = 'data'
+			version = '1.0.0'
+		}
+	}
+}

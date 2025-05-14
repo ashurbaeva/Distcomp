@@ -1,0 +1,5 @@
+@Publisher_HostAddress = http://localhost:24110
+
+### Get al news
+GET {{Publisher_HostAddress}}/api/v1.0/news
+Accept: application/json

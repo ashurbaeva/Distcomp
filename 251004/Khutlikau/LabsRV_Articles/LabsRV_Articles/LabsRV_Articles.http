@@ -1,0 +1,6 @@
+@LabsRV_Articles_HostAddress =  http://localhost:24110
+
+GET {{LabsRV_Articles_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
